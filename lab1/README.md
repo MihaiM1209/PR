@@ -1,5 +1,15 @@
 # PR Lab 1 – HTTP File Server (Sockets + Docker)
 
+## The Task
+
+Implement an HTTP File server using **raw TCP sockets** that:
+- Handles one HTTP request at a time.
+- Serves files from a chosen directory (`.html`, `.png`, `.pdf`).
+- Returns a **404 custom page** for missing or unsupported files.
+- Provides directory listings for nested folders.
+- Runs inside **Docker** using **Docker Compose**.
+- Includes a simple **Python client** for testing.
+
 ## Overview
 
 This project implements a minimal HTTP file server using raw TCP sockets (no frameworks!), plus an optional HTTP client and Docker support for quick testing.
