@@ -1,13 +1,15 @@
 # PR Lab 1 – HTTP File Server (Sockets + Docker)
 
+
+**Author:** Mihai M.
+**University:** FAF  
+**Lab:** NP-PR Lab 1  
+**Year:** 2025
+
 ## Overview
 
 This project implements a minimal HTTP file server using raw TCP sockets (no frameworks!), plus an optional HTTP client and Docker support for quick testing. It features:
 
-- Modern, beautiful directory listings with icons and file info
-- Secure file and directory serving
-- Clean, production-ready code
-- Dockerfile and docker-compose for streamlined setup
 
 ## Table of Contents
 
@@ -80,12 +82,16 @@ python /app/server.py /data --host 0.0.0.0 --port 8080
 
 - **404 Example:**  
   `http://localhost:8080/nonexistent.file`
+  
 - **HTML File:**  
   `http://localhost:8080/index.html`
+  
 - **PDF File:**  
   `http://localhost:8080/sample.pdf`
+  
 - **PNG File:**  
   `http://localhost:8080/image.png`
+  
 - **Directory Browsing:**  
   `http://localhost:8080/books/`
 
@@ -117,25 +123,3 @@ All files will be saved in the specified local `downloads_dir`.
 
 ---
 
-## Screenshots
-
-*(Include screenshots of your directory listing, HTML file in browser, and downloads, as required for your lab.)*
-
----
-
-## Project Details
-
-**Features:**
-- 📁 Secure file/directory listing (path traversal protection)
-- 📖 Beautiful, modern HTML/CSS design (directory listing)
-- ⚡ Fast socket handling & proper network timeouts
-- 🐳 Docker, Docker Compose ready
-- ⚙️ Can run standalone (no Docker needed)
-- 💡 Optional custom HTTP client
-
----
-
-**Author:** Mihai M.
-**University:** FAF  
-**Lab:** NP-PR Lab 1  
-**Year:** 2025
