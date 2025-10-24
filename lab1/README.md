@@ -135,3 +135,4 @@ All files will be saved in the specified local `downloads_dir`.
 
 
 
+> The project demonstrates practical understanding of TCP sockets, HTTP fundamentals, and Docker workflow.
