@@ -118,3 +118,20 @@ All files will be saved in the specified local `downloads_dir`.
 ---
 
 
+## Screenshots
+**Screenshot – directory listing:**
+![image](screenshots/directory.png)
+**Screenshot – opening a .pdf file:**
+![image](screenshots/open-file.png)
+**Screenshot – opening a .png file:**
+![image](screenshots/open-photo.png)
+**Screenshot – 404 page:**
+![image](screenshots/404error.png)
+
+
+
+
+
+
+
+
