@@ -2,12 +2,7 @@
 
 ## Overview
 
-This project implements a minimal HTTP file server using raw TCP sockets (no frameworks!), plus an optional HTTP client and Docker support for quick testing. It features:
-
-- Modern, beautiful directory listings with icons, table layout, breadcrumbs, file size, and last-modified info
-- Secure file and directory serving
-- Clean, production-ready code
-- Dockerfile and docker-compose for streamlined setup
+This project implements a minimal HTTP file server using raw TCP sockets (no frameworks!), plus an optional HTTP client and Docker support for quick testing.
 
 ## Table of Contents
 
@@ -80,14 +75,19 @@ python /app/server.py /data --host 0.0.0.0 --port 8080
 
 - **404 Example:**  
   `http://localhost:8080/nonexistent.file`
+
 - **HTML File:**  
   `http://localhost:8080/index.html`
+
 - **PDF File:**  
   `http://localhost:8080/sample.pdf`
+
 - **PNG File:**  
   `http://localhost:8080/image.png`
+
 - **Directory Browsing:**  
   `http://localhost:8080/books/`
+
 
 ---
 
@@ -117,29 +117,4 @@ All files will be saved in the specified local `downloads_dir`.
 
 ---
 
-## Screenshots
 
-### Modern Directory Listing Table
-
-> _Add your screenshot here: e.g. screenshots/dir-listing.png_
-
-*(Displays files/folders in a table with icons, sizes, and modified dates. Clean, modern design with breadcrumbs at the top.)*
-
----
-
-## Project Details
-
-**Features:**
-- 📁 Secure file/directory listing (path traversal protection)
-- 📖 Beautiful, modern HTML/CSS table design (directory listing with icons, breadcrumbs, file size and date)
-- ⚡ Fast socket handling & proper network timeouts
-- 🐳 Docker, Docker Compose ready
-- ⚙️ Can run standalone (no Docker needed)
-- 💡 Optional custom HTTP client
-
----
-
-**Author:** Mihai M.
-**University:** FAF  
-**Lab:** NP-PR Lab 1  
-**Year:** 2025
