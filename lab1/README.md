@@ -1,9 +1,6 @@
 # PR Lab 1 – HTTP File Server (Sockets + Docker)
 
 
-**Author:** Mihai M. 
-**Lab:** PR Lab 1  
-**Year:** 2025
 
 ## Overview
 
