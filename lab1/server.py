@@ -112,6 +112,33 @@ def make_dir_listing_html(url_path, abs_dir_path):
 </html>'''
     return body.encode("utf-8")
 
+def custom_404_html(path):
+    html = f'''<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>404 Not Found</title>
+<style>
+  body {{ font-family: Segoe UI, sans-serif; background: #f3f6fa; color: #222; margin:0; }}
+  .container {{ max-width:450px; margin:60px auto; background:white; border-radius:18px; box-shadow:0 5px 24px #b1b8cd22; padding:36px 35px 32px 35px; text-align:center; }}
+  h1 {{ font-size:2.9em; margin-bottom:12px; color: #db3a34; }}
+  p {{ font-size:1.16em; color:#526485; margin-bottom:22px; }}
+  .big-icon {{ font-size:3em; margin-bottom:10px; }}
+  a.btn {{ display:inline-block; background:#397bd6; color:white; padding:11px 28px; border-radius:8px; text-decoration:none; font-weight:600; margin-top:10px; font-size:1.06em; }}
+  a.btn:hover {{ background: #2b5fa5; }}
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="big-icon">🔍</div>
+    <h1>404 Not Found</h1>
+    <p>No file or directory found at<br><code>{path}</code></p>
+    <a class="btn" href="/">Go to Home</a>
+  </div>
+</body>
+</html>'''
+    return html.encode("utf-8")
+
 def handle_client(conn, addr, root):
     data = b""
     conn.settimeout(2.0)
@@ -158,7 +185,7 @@ def handle_client(conn, addr, root):
     if os.path.isfile(fs_path):
         mime = guess_mime(fs_path)
         if not mime:
-            conn.sendall(build_response(404, "Not Found", body=b""))
+            conn.sendall(build_response(404, "Not Found", body=custom_404_html(path)))
             return
         try:
             with open(fs_path, "rb") as f:
@@ -172,7 +199,7 @@ def handle_client(conn, addr, root):
             conn.sendall(build_response(500, "Internal Server Error", body=b""))
             return
 
-    conn.sendall(build_response(404, "Not Found", body=b""))
+    conn.sendall(build_response(404, "Not Found", body=custom_404_html(path)))
 
 def run_server(root_dir, host, port):
     print(f"[INFO] Serving '{root_dir}' at http://{host}:{port} (one request at a time)")
