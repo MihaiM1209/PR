@@ -46,29 +46,70 @@ def guess_mime(path):
     return MIME_MAP.get(ext)
 
 def make_dir_listing_html(url_path, abs_dir_path):
-    items = []
+    # Breadcrumbs
+    parts = url_path.rstrip('/').split('/')
+    breadcrumbs = []
+    for i in range(len(parts)):
+        if not parts[i]:
+            href = '/'
+            name = 'root'
+        else:
+            href = '/' + '/'.join(parts[1:i+1])
+            name = parts[i]
+        breadcrumbs.append(f'<a href="{href}">{name}</a>')
+    breadcrumb_html = ' / '.join(breadcrumbs)
+
+    rows = []
     if url_path != "/":
         parent = os.path.dirname(url_path.rstrip("/"))
         if not parent:
             parent = "/"
-        items.append(f'<li><a href="{parent or "/"}">.. (parent)</a></li>')
+        rows.append(f'<tr><td>📁</td><td colspan="3"><a href="{parent or "/"}">.. (parent dir)</a></td></tr>')
 
     for name in sorted(os.listdir(abs_dir_path)):
         full = os.path.join(abs_dir_path, name)
-        display = name + ("/" if os.path.isdir(full) else "")
+        is_dir = os.path.isdir(full)
+        display = name + ("/" if is_dir else "")
         href = urllib.parse.urljoin(url_path.rstrip("/") + "/", name)
-        items.append(f'<li><a href="{href}">{display}</a></li>')
+        size = "-" if is_dir else f"{os.path.getsize(full)/1024:.1f} KB"
+        mtime = datetime.datetime.fromtimestamp(os.path.getmtime(full)).strftime('%Y-%m-%d %H:%M')
+        icon = "📁" if is_dir else "📄"
+        rows.append(f'<tr><td>{icon}</td><td><a href="{href}">{display}</a></td><td>{size}</td><td>{mtime}</td></tr>')
 
-    body = f"""<!doctype html>
+    body = f'''<!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Index of {url_path}</title></head>
+<head>
+  <meta charset="utf-8">
+  <title>Index of {url_path}</title>
+  <style>
+    body {{ font-family: Segoe UI, sans-serif; background: #f3f6fa; color: #222; margin: 0; }}
+    .listing-container {{ max-width: 750px; background: white; border-radius: 18px; margin: 40px auto; padding: 32px 40px; box-shadow: 0 9px 32px rgba(80, 118, 181, 0.10); }}
+    .breadcrumb {{ font-size: 1em; margin-bottom: 25px; color: #999; }}
+    .breadcrumb a {{ color: #4578e1; text-decoration: none; margin-right: 4px; }}
+    .breadcrumb a:hover {{ text-decoration: underline; }}
+    h1 {{ font-size: 1.45em; margin-bottom: 22px; color: #2c3e50; }}
+    table {{ width: 100%; border-collapse: collapse; }}
+    th, td {{ padding: 10px 12px; text-align: left; }}
+    th {{ background: #f8fafd; border-bottom: 2px solid #e9edf3; color: #4d6488; font-size: 1em; font-weight: 600; }}
+    td {{ border-bottom: 1px solid #ecf0f3; font-size: 1em; }}
+    tr:last-child td {{ border-bottom: none; }}
+    a {{ color: #397bd6; text-decoration: none; }}
+    a:hover {{ text-decoration: underline; }}
+    tr:hover td {{ background: #f3f6fb; }}
+    @media (max-width: 600px) {{ .listing-container {{ padding: 7vw 3vw; }} th, td {{ font-size: 0.97em; padding: 7px 6px; }} }}
+  </style>
+</head>
 <body>
-  <h1>Index of {url_path}</h1>
-  <ul>
-    {''.join(items)}
-  </ul>
+  <div class="listing-container">
+    <div class="breadcrumb">{breadcrumb_html}</div>
+    <h1>Index of {url_path}</h1>
+    <table>
+      <tr><th style="width:30px"></th><th>Name</th><th style="width:100px">Size</th><th style="width:160px">Last modified</th></tr>
+      {''.join(rows)}
+    </table>
+  </div>
 </body>
-</html>"""
+</html>'''
     return body.encode("utf-8")
 
 def handle_client(conn, addr, root):
